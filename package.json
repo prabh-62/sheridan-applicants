@@ -1,5 +1,5 @@
 {
-  "name": "graphql-start",
+  "name": "sheridan-applicants",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -10,8 +10,7 @@
     "cors": "^2.8.3",
     "express": "^4.15.2",
     "express-graphql": "^0.6.4",
-    "graphql": "^0.9.2",
-    "graphql-relay": "^0.5.1"
+    "graphql": "^0.9.2"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

@@ -10,51 +10,61 @@ const {
   GraphQLInputObjectType,
   GraphQLNonNull,
   GraphQLID,
-  GraphQLString,
-  GraphQLInt,
-  GraphQLBoolean
+  GraphQLString
 } = require('graphql')
-const {getVideoById, getVideos, createVideo} = require('./data')
+const {getInquiryById, getInquiries, createInquiry} = require('./data')
 const {nodeInterface} = require('./interface')
 
 const PORT = process.env.PORT || 3000
 const server = express()
 
-const videoType = new GraphQLObjectType({
-  name: 'Video',
-  description: ' A video on Egghead.io',
+const inquiryType = new GraphQLObjectType({
+  name: 'Inquiry',
+  description: 'Student inquiry about the speific course',
   fields: {
     id: {
       type: new GraphQLNonNull(GraphQLID),
-      description: ' The id of the Video'
+      description: ' The id of the inquiry Object'
     },
-    title: {
+    firstName: {
       type: GraphQLString,
-      description: 'The title of the video'
+      description: 'First name of the user'
     },
-    duration: {
-      type: GraphQLInt,
-      description: 'The duration of the video(in seconds)'
+    lastName: {
+      type: GraphQLString,
+      description: 'Last name of the user'
     },
-    released: {
-      type: GraphQLBoolean,
-      duration: 'Whethter or not the viewer has watched the video'
+    email: {
+      type: GraphQLString,
+      description: 'Contact email of the user'
+    },
+    program: {
+      type: GraphQLString,
+      description: 'Program user is interest in'
+    },
+    request: {
+      type: GraphQLString,
+      description: 'Program Inquiry'
+    },
+    requestDate: {
+      type: GraphQLString,
+      description: 'Date the inquiry was made'
     }
   },
   interfaces: [nodeInterface]
 })
-exports.videoType = videoType
+exports.inquiryType = inquiryType
 
 const queryType = new GraphQLObjectType({
   name: 'QueryType',
   description: 'The root query type',
   fields: {
-    videos: {
-      type: new GraphQLList(videoType),
-      resolve: getVideos
+    inquiries: {
+      type: new GraphQLList(inquiryType),
+      resolve: getInquiries
     },
-    video: {
-      type: videoType,
+    inquiry: {
+      type: inquiryType,
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID),
@@ -62,26 +72,38 @@ const queryType = new GraphQLObjectType({
         }
       },
       resolve: (_, args) => {
-        return getVideoById(args.id)
+        return getInquiryById(args.id)
       }
     }
   }
 })
 
-const videoInputType = new GraphQLInputObjectType({
-  name: 'videoInput',
+const inquiryInputType = new GraphQLInputObjectType({
+  name: 'inquiryInput',
   fields: {
-    title: {
+    firstName: {
       type: new GraphQLNonNull(GraphQLString),
-      description: 'The title of the video'
+      description: 'First name of the user'
     },
-    duration: {
-      type: new GraphQLNonNull(GraphQLInt),
-      description: 'The duration of the video(in seconds)'
+    lastName: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Last name of the user'
     },
-    released: {
-      type: new GraphQLNonNull(GraphQLBoolean),
-      duration: 'Whether or not the viewer has watched the video'
+    email: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Contact email of the user'
+    },
+    program: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Program user is interest in'
+    },
+    request: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Program Inquiry'
+    },
+    requestDate: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Date the inquiry was made'
     }
   }
 })
@@ -90,15 +112,15 @@ const mutationType = new GraphQLObjectType({
   name: 'Mutation',
   description: ' The root mutation type',
   fields: {
-    createVideo: {
-      type: videoType,
+    createInquiry: {
+      type: inquiryType,
       args: {
-        video: {
-          type: new GraphQLNonNull(videoInputType)
+        inquiry: {
+          type: new GraphQLNonNull(inquiryInputType)
         }
       },
       resolve: (_, args) => {
-        return createVideo(args.video)
+        return createInquiry(args.inquiry)
       }
     }
   }

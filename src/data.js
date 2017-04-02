@@ -1,38 +1,47 @@
-const videoA = {
-  id: 'a',
-  title: 'Create a GraphQL Schema',
-  duration: 120,
-  released: false
+const inquiry1 = {
+  id: 'q3',
+  firstName: 'Ryan',
+  lastName: 'Gosling',
+  email: 'ryan.gosling@sheridancollege.ca',
+  program: 'PCSSC',
+  request: 'Hey',
+  requestDate: '03/03/2016'
 }
-const videoB = {
-  id: 'b',
-  title: 'Angular CLI',
-  duration: 240,
-  released: false
+const inquiry2 = {
+  id: 'q4',
+  firstName: 'Robert',
+  lastName: 'Downey Jr',
+  email: 'robert.downey@sheridancollege.ca',
+  program: 'PCSSC',
+  request: 'Hey',
+  requestDate: '03/03/2016'
 }
 
-const videos = [videoA, videoB]
+const inquiries = [inquiry1, inquiry2]
 
-const getVideoById = id =>
+const getInquiryById = id =>
   new Promise(resolve => {
-    const [video] = videos.filter(video => {
+    const [user] = inquiries.filter(video => {
       return video.id === id
     })
-    resolve(video)
+    resolve(user)
   })
 
-const getVideos = () => new Promise(resolve => resolve(videos))
+const getInquiries = () => new Promise(resolve => resolve(inquiries))
 
-const createVideo = ({title, duration, released}) => {
-  const video = {
-    id: (new Buffer(title, 'utf8')).toString('base64'),
-    title,
-    duration,
-    released
+const createInquiry = ({firstName, lastName, email, program, request, requestDate}) => {
+  const inquiry = {
+    id: (new Buffer(firstName, 'utf8')).toString('base64'),
+    firstName,
+    lastName,
+    email,
+    program,
+    request,
+    requestDate
   }
-  videos.push(video)
-  return video
+  inquiries.push(inquiry)
+  return inquiry
 }
-exports.getVideoById = getVideoById
-exports.getVideos = getVideos
-exports.createVideo = createVideo
+exports.getInquiryById = getInquiryById
+exports.getInquiries = getInquiries
+exports.createInquiry = createInquiry
